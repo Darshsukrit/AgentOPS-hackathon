@@ -1,17 +1,28 @@
-import redis.asyncio as redis
+import importlib
 import os
 import json
 from typing import Optional, Any
 from backend.utils.logger import logger
+from backend.config import settings
 
-REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379")
+try:
+    redis = importlib.import_module("redis.asyncio")
+except ModuleNotFoundError:
+    redis = None
+
+REDIS_URL = settings.REDIS_URL or os.getenv("REDIS_URL", "redis://localhost:6379")
 
 class RedisClient:
     def __init__(self):
-        self.client: Optional[redis.Redis] = None
+        self.client: Optional[Any] = None
         self._fallback_dict = {}
 
     async def connect(self):
+        if redis is None:
+            logger.warning("Redis asyncio module not available. Using in-memory fallback for transient state.")
+            self.client = None
+            return
+
         try:
             self.client = redis.from_url(REDIS_URL, decode_responses=True)
             await self.client.ping()
@@ -55,5 +66,8 @@ class RedisClient:
                 self._fallback_dict.pop(key, None)
         else:
             self._fallback_dict.pop(key, None)
+
+    def is_connected(self) -> bool:
+        return self.client is not None
 
 redis_client = RedisClient()

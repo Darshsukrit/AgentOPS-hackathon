@@ -4,6 +4,21 @@ from typing import Optional, Dict, Any, List
 class HealthResponse(BaseModel):
     status: str
     config_loaded: bool
+    database: str
+    redis: str
+
+class IntegrationStatusResponse(BaseModel):
+    supabase: str
+    redis: str
+    tables_created: bool
+    seed_data: bool
+    workflows: Dict[str, int]
+    total_workflows: int
+    audit_logs: int
+    cost_records: int
+    cost_tracking: bool
+    audit_logs_working: bool
+    integration_complete: bool
 
 class TestAIRequest(BaseModel):
     prompt: str

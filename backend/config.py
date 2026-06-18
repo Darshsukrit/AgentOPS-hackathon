@@ -10,11 +10,15 @@ class Settings(BaseSettings):
     FEATHERLESS_MODEL: str
 
     BAND_API_KEY: str
-    BAND_BASE_URL: str = "https://api.band.example.com/v1"
+    BAND_BASE_URL: str = "https://app.band.ai/api/v1"
     BAND_AGENT_ID: str = ""
     BAND_HANDLE: str = ""
 
     PORT: int = 8000
+
+    DATABASE_URL: str = ""
+    REDIS_URL: str = "redis://localhost:6379"
+    DEMO_MODE: bool = True
 
     model_config = SettingsConfigDict(
         env_file=".env",
