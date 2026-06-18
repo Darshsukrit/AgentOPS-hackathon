@@ -15,7 +15,7 @@ class MetaAgent(BaseAgent):
         start_time = time.time()
         
         try:
-            room_data = await self.band_client.create_chat(room_name)
+            room_data = await self.band_client.create_room(room_name)
             context.band_room_id = room_data.get("id", str(uuid.uuid4()))
             logger.info(f"Band room created: {context.band_room_id}")
         except Exception as e:
