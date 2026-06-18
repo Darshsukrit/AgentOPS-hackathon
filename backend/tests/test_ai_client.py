@@ -3,8 +3,9 @@ from unittest.mock import patch, AsyncMock
 from backend.ai_client import AIClient
 
 @pytest.mark.asyncio
+@patch("backend.ai_client.AIClient._use_demo", return_value=False)
 @patch("backend.ai_client.AIClient._call_provider")
-async def test_ai_generate_success(mock_call_provider):
+async def test_ai_generate_success(mock_call_provider, mock_use_demo):
     mock_call_provider.return_value = "AIML response"
     client = AIClient()
     
@@ -16,8 +17,9 @@ async def test_ai_generate_success(mock_call_provider):
     await client.close()
 
 @pytest.mark.asyncio
+@patch("backend.ai_client.AIClient._use_demo", return_value=False)
 @patch("backend.ai_client.AIClient._call_provider")
-async def test_ai_generate_fallback(mock_call_provider):
+async def test_ai_generate_fallback(mock_call_provider, mock_use_demo):
     # First call fails, second call succeeds
     mock_call_provider.side_effect = [Exception("API Down"), "Featherless response"]
     
@@ -30,8 +32,9 @@ async def test_ai_generate_fallback(mock_call_provider):
     await client.close()
 
 @pytest.mark.asyncio
+@patch("backend.ai_client.AIClient._use_demo", return_value=False)
 @patch("backend.ai_client.AIClient._call_provider")
-async def test_ai_generate_both_fail(mock_call_provider):
+async def test_ai_generate_both_fail(mock_call_provider, mock_use_demo):
     # Both calls fail
     mock_call_provider.side_effect = [Exception("AIML Down"), Exception("Featherless Down")]
     
