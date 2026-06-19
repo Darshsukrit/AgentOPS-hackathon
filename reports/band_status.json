@@ -1,0 +1,13 @@
+{
+  "configured": true,
+  "base_url": "https://app.band.ai/api/v1",
+  "agent_id": "d65098f3-bd6e-4468-82cd-69d4db61168a",
+  "handle": "@amritkis2006/agentos-governance-engin",
+  "reachable": true,
+  "error": null,
+  "band_agents": [
+    "ComplianceAgent",
+    "RiskAgent",
+    "AuditAgent"
+  ]
+}

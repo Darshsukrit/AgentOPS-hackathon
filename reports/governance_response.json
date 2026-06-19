@@ -1,0 +1,87 @@
+[
+  {
+    "agent_id": "MetaAgent",
+    "name": "MetaAgent",
+    "type": "rule",
+    "provider": "local",
+    "status": "active",
+    "tier": [
+      "low",
+      "medium",
+      "high"
+    ],
+    "description": "Workflow initialization and orchestration"
+  },
+  {
+    "agent_id": "RegistryAgent",
+    "name": "RegistryAgent",
+    "type": "rule",
+    "provider": "local",
+    "status": "active",
+    "tier": [
+      "low",
+      "medium",
+      "high"
+    ],
+    "description": "Agent identity validation"
+  },
+  {
+    "agent_id": "SecurityAgent",
+    "name": "SecurityAgent",
+    "type": "ai",
+    "provider": "aiml",
+    "status": "active",
+    "tier": [
+      "medium",
+      "high"
+    ],
+    "description": "PII and security analysis"
+  },
+  {
+    "agent_id": "ComplianceAgent",
+    "name": "ComplianceAgent",
+    "type": "ai",
+    "provider": "band",
+    "status": "active",
+    "tier": [
+      "high"
+    ],
+    "description": "GDPR SOC2 HIPAA compliance checks"
+  },
+  {
+    "agent_id": "RiskAgent",
+    "name": "RiskAgent",
+    "type": "ai",
+    "provider": "band",
+    "status": "active",
+    "tier": [
+      "medium",
+      "high"
+    ],
+    "description": "Risk scoring and assessment"
+  },
+  {
+    "agent_id": "EscalationAgent",
+    "name": "EscalationAgent",
+    "type": "rule",
+    "provider": "local",
+    "status": "active",
+    "tier": [
+      "high"
+    ],
+    "description": "Human escalation routing"
+  },
+  {
+    "agent_id": "AuditAgent",
+    "name": "AuditAgent",
+    "type": "ai",
+    "provider": "band",
+    "status": "active",
+    "tier": [
+      "low",
+      "medium",
+      "high"
+    ],
+    "description": "Final governance decision synthesis"
+  }
+]
