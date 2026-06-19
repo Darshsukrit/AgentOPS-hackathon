@@ -1,0 +1,575 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="description" content="">
+    <meta name="robots" content="index, follow">
+
+    <meta name="referrer" content="strict-origin">
+
+    <meta name="theme-color" content="#ffffff">
+
+      <link rel="icon" href="https://static.band.ai/favicon.ico">
+      <link rel="apple-touch-icon" href="https://static.band.ai/favicon.ico">
+
+    <link rel="stylesheet" href="/css/font-awesome-4.7.0.min.css"/>
+    <link rel="stylesheet" href="/css/fusionauth-style.css?version=1.62.1"/>
+
+    <style>
+    /*
+ * Theme stylesheet — Stripe-style auth page, band.ai colors.
+ *
+ * Layered on top of FusionAuth Classic. Classic's grid + input-group
+ * CSS still runs underneath; this file restyles the surface (panel,
+ * inputs, buttons, page bg).
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap");
+
+:root {
+    --primary: #92ed92; /* band.ai green */
+    --primary-hover: #b5f2b5; /* lighter green on hover */
+    --ink: #1a1a1a;
+    --ink-muted: #6b7280;
+    --bg: #f5f5f5;
+    --panel-bg: #ffffff;
+    --border-soft: #e5e7eb;
+    --border-medium: #d1d5db;
+    --focus-ring: rgba(146, 237, 146, 0.45);
+    --footer-bg: #f9fafb;
+    --latte: #fff8e7;
+}
+
+/* Page background — flat brand-neutral gray */
+html,
+body {
+    font-family:
+        "Inter",
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif !important;
+    color: var(--ink);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Card / panel: clean white, big radius, soft shadow */
+.panel {
+    background: var(--panel-bg) !important;
+    border: 1px solid var(--border-soft) !important;
+    border-radius: 16px;
+    box-shadow:
+        0 10px 25px -10px rgba(0, 0, 0, 0.1),
+        0 4px 12px -4px rgba(0, 0, 0, 0.06);
+    padding: 2.5rem !important;
+    overflow: hidden; /* lets us bleed a footer strip to the edges */
+    position: relative;
+}
+
+/* Headings */
+h1,
+h2,
+h3 {
+    color: var(--ink);
+    font-family:
+        "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+h1 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin: 0 0 1.5rem;
+}
+h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 0 1.5rem;
+    text-transform: none;
+    letter-spacing: 0;
+}
+h3 {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+p,
+label {
+    color: var(--ink);
+}
+p {
+    line-height: 1.5;
+    color: var(--ink-muted);
+}
+a {
+    color: var(--ink);
+    text-underline-offset: 3px;
+}
+a:hover {
+    opacity: 0.75;
+}
+
+/* Hide empty logo placeholder */
+.logo-container img:not([src]),
+.logo-container img[src=""] {
+    display: none;
+}
+
+/* Labels above inputs */
+label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    color: var(--ink);
+}
+
+/* Inputs — rounded, no icon addon, clean Stripe-style */
+.input-addon-group {
+    position: relative;
+    display: block;
+}
+.input-addon-group .icon {
+    display: none;
+} /* hide any leftover left-addon icons */
+
+.panel input[type="text"],
+.panel input[type="email"],
+.panel input[type="password"],
+.panel input[type="number"],
+.panel input[type="tel"],
+.panel input[type="search"],
+.panel select,
+.panel textarea {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    height: 44px !important;
+    padding: 0 0.9rem !important;
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--ink);
+    background: #fff !important;
+    border: 1px solid var(--border-medium) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+    transition:
+        border-color 100ms ease,
+        box-shadow 100ms ease;
+}
+
+.panel input:focus,
+.panel select:focus,
+.panel textarea:focus {
+    outline: none;
+    border-color: var(--ink);
+    box-shadow: none;
+}
+
+/* Primary submit button — full-width, band.ai green, matches input height (44px) */
+.panel .button.blue,
+.panel button.blue {
+    width: 100%;
+    box-sizing: border-box;
+    height: 44px;
+    padding: 0 1.25rem !important;
+    background: var(--primary) !important;
+    border: 1.5px solid #000 !important;
+    color: #000 !important;
+    border-radius: 8px !important;
+    font-weight: 700 !important;
+    font-size: 0.9rem !important;
+    line-height: 1 !important;
+    box-shadow: none !important;
+    transition: background 100ms ease;
+    margin-top: 0.25rem;
+}
+
+.panel .button.blue:hover,
+.panel button.blue:hover {
+    background: var(--primary-hover) !important;
+}
+
+.panel .button.blue i.fa,
+.panel button.blue i.fa {
+    display: none;
+}
+
+/* Secondary buttons (password-complete login buttons, social logins) */
+.panel a.button,
+.panel .login-button {
+    width: 100%;
+    box-sizing: border-box;
+    height: 44px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    background: transparent !important;
+    border: 1px solid var(--border-medium) !important;
+    border-radius: 8px !important;
+    color: var(--ink) !important;
+    font-weight: 600 !important;
+    font-size: 0.75rem !important;
+    text-decoration: none;
+    padding: 0 1rem !important;
+    line-height: 1 !important;
+    margin-bottom: 0.5rem;
+    transition:
+        background 100ms ease,
+        border-color 100ms ease;
+}
+
+/* Wrapper inside .login-button — Classic wraps icon+text in a div */
+.panel .login-button > div {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+}
+
+/* Provider icon — size + center it. Classic gives .google .icon a white
+   background + horizontal padding (made sense on Classic's blue Google
+   button); strip both so the icon sits flush on our white button. */
+.panel .login-button .icon {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background: transparent !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+}
+.panel .login-button .icon svg,
+.panel .login-button .icon i {
+    width: 20px !important;
+    height: 20px !important;
+    font-size: 18px !important;
+}
+
+/* Force the button label visible (FA Classic hides .text on some buttons) */
+.panel .login-button .text {
+    display: inline-block !important;
+    color: var(--ink) !important;
+    font-size: 0.9rem !important; /* match the primary "Sign in" button */
+    font-weight: 600 !important;
+    text-transform: none !important;
+    line-height: 1.4 !important;
+}
+
+/* "Or sign in with" divider above social logins — line on BOTH sides of the label */
+.panel .hr-container {
+    display: flex !important;
+    align-items: center;
+    margin: 1.25rem 0 1rem;
+    color: var(--ink-muted) !important;
+    font-size: 0.75rem !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+}
+.panel .hr-container::before,
+.panel .hr-container::after {
+    content: "";
+    flex: 1;
+    border-top: 1px solid var(--border-soft);
+}
+.panel .hr-container hr {
+    display: none !important;
+}
+.panel .hr-container > div {
+    padding: 0 0.75rem;
+    white-space: nowrap;
+    text-transform: none !important;
+    color: var(--ink-muted) !important;
+}
+.panel a.button:hover,
+.panel .login-button:hover {
+    background: #f2f3f4 !important;
+    box-shadow: none !important;
+    opacity: 1;
+}
+
+/* Form rows */
+.panel .form-row {
+    margin-bottom: 1rem;
+}
+
+/* Checkbox — no container border/background, only the .box square is styled.
+   FusionAuth Classic's fusionauth-style.css has high-specificity rules on
+   .checkbox-list / .checkbox, so we both raise specificity and force the
+   override with !important. */
+.panel .form-row .checkbox-list,
+.panel .form-row label.checkbox {
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 0 0.25rem !important;
+}
+
+.panel .form-row label.checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+/* Match the checkbox border to the input borders */
+.checkbox span.box {
+    border-color: var(--border-medium) !important;
+}
+
+.checkbox input[type="checkbox"]:checked + .box {
+    background: transparent !important;
+    border-color: var(--border-medium) !important;
+}
+
+/* Black checkmark instead of white, and no drop-shadow */
+.checkbox span.box::after,
+.checkbox span.box:after {
+    border-color: #000 !important;
+    box-shadow: none !important;
+}
+
+/* Classic also paints a blue focus ring on .box when the input is focused.
+   Kill that too (we have no focus indicator on the checkbox itself). */
+.checkbox input:focus + span.box,
+.checkbox input:focus-visible + span.box {
+    box-shadow: none !important;
+}
+
+.panel .form-row label.checkbox .label,
+.panel .form-row label.checkbox span.label {
+    line-height: 1.6 !important;
+    font-size: 0.9rem !important;
+    display: inline-block;
+}
+
+.checkbox .label a {
+    color: var(--ink);
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+/* "Forgot password?" link styling — when placed inline next to a label */
+.label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.4rem;
+}
+.label-row label {
+    margin-bottom: 0;
+}
+.label-row a {
+    font-size: 0.875rem;
+}
+
+/* Brand logo centered above the page title.
+   FusionAuth Classic's fusionauth-style.css sets .logo-container { display:none }
+   by default — force it visible. */
+.panel .logo-container {
+    display: block !important;
+    text-align: center;
+    margin: 0 0 1.25rem !important;
+}
+.panel .logo-container img {
+    display: inline-block !important;
+    height: 28px;
+    width: auto;
+}
+
+/* Info-circle icon next to checkbox labels (e.g. "Keep me signed in").
+   Classic paints `label i.fa` cyan blue (#1e91cf); match our ink-muted gray. */
+.panel label i.fa,
+.panel label i.fa.fa-info-circle,
+.panel .checkbox .label i.fa-info-circle,
+.panel i.fa-info-circle {
+    color: var(--ink-muted) !important;
+}
+
+/* Hide FusionAuth footer if it ever slips back in */
+#fa-footer {
+    display: none !important;
+}
+
+    </style>
+
+    <script src="/js/prime-min-1.7.0.js?version=1.62.1"></script>
+    <script src="/js/Util.js?version=1.62.1"></script>
+    <script src="/js/oauth2/LocaleSelect.js?version=1.62.1"></script>
+    <script>
+      "use strict";
+      Prime.Document.onReady(function() {
+        Prime.Document.query('.alert').each(function(e) {
+          var dismissButton = e.queryFirst('a.dismiss-button');
+          if (dismissButton !== null) {
+            new Prime.Widgets.Dismissable(e, dismissButton).initialize();
+          }
+        });
+        Prime.Document.query('[data-tooltip]').each(function(e) {
+          new Prime.Widgets.Tooltip(e).withClassName('tooltip').initialize();
+        });
+        document.querySelectorAll('.date-picker').forEach(datePicker => {
+          datePicker.onfocus = () => datePicker.type = 'date';
+          datePicker.onblur = () => {
+            if (datePicker.value === '') {
+              datePicker.type = 'text';
+            }
+          };
+        });
+        var localeSelect = Prime.Document.queryById('locale-select');
+        if (localeSelect !== null) {
+          new FusionAuth.OAuth2.LocaleSelect(localeSelect);
+        }
+      });
+      FusionAuth.Version = "1.62.1";
+    </script>
+
+    <script src="/js/jstz-min-1.0.6.js"></script>
+    <script src="/js/oauth2/Authorize.js?version=1.62.1"></script>
+    <script src="/js/identityProvider/InProgress.js?version=1.62.1"></script>
+      <script id="idp_helper" src="/js/identityProvider/Helper.js?version=1.62.1"></script>
+      <script src="/js/identityProvider/Redirect.js?version=1.62.1"></script>
+    <script>
+      Prime.Document.onReady(function() {
+        new FusionAuth.OAuth2.Authorize();
+      });
+    </script>
+
+  </head>
+  <body class="app-sidebar-closed">
+  <main>
+
+
+  <main class="page-body container">
+    <div class="row center-xs">
+      <div class="col-xs col-sm-10 col-md-8 col-lg-7 col-xl-6">
+        <div class="panel" data-in-progress>
+            <div class="logo-container">
+              <img id="imgThemeLogo" src="https://static.band.ai/logo.svg" alt="Band"/>
+            </div>
+            <h2>Login</h2>
+          <main>
+      <form action="/oauth2/authorize" method="POST" class="full">
+  <input type="hidden" name="captcha_token" value="" />
+  <input type="hidden" name="client_id" value="6f9bd03d-6013-45bb-aa4d-8dc5bdb20a73"/>
+  <input type="hidden" name="code_challenge" value="" />
+  <input type="hidden" name="code_challenge_method" value="" />
+  <input type="hidden" name="metaData.device.name" value="" />
+  <input type="hidden" name="metaData.device.type" value="" />
+  <input type="hidden" name="nonce" value="" />
+  <input type="hidden" name="oauth_context" value="" />
+  <input type="hidden" name="pendingIdPLinkId" value="" />
+  <input type="hidden" name="prompt" value="" />
+  <input type="hidden" name="redirect_uri" value="https://app.band.ai/users/log_in/fusion_auth"/>
+  <input type="hidden" name="response_mode" value="" />
+  <input type="hidden" name="response_type" value="code"/>
+  <input type="hidden" name="scope" value="email profile"/>
+  <input type="hidden" name="state" value="" />
+  <input type="hidden" name="tenantId" value="08298c36-e324-4b2c-83f2-1ec9ae04d8d7"/>
+  <input type="hidden" name="timezone" value="" />
+  <input type="hidden" name="user_code" value="" />
+  <input type="hidden" name="showPasswordField" value="true"/>
+  <input type="hidden" name="userVerifyingPlatformAuthenticatorAvailable" value="false"/>
+
+        <fieldset>
+  <div class="form-row">
+<label for="loginId">Email
+</label>  <input id="loginId" type="text" name="loginId" value="" class=""
+         autocapitalize="none" autocomplete="on" autocorrect="off"
+         spellcheck="false" autofocus="autofocus" placeholder="" />
+  </div>
+            <div class="form-row">
+              <div class="label-row">
+                <label for="password">Password</label>
+                  <a href="/password/forgot?tenantId=08298c36-e324-4b2c-83f2-1ec9ae04d8d7&client_id=6f9bd03d-6013-45bb-aa4d-8dc5bdb20a73&nonce=&pendingIdPLinkId=&redirect_uri=https%3A%2F%2Fapp.band.ai%2Fusers%2Flog_in%2Ffusion_auth&response_mode=&response_type=code&scope=email%20profile&state=&timezone=&metaData.device.name=&metaData.device.type=&code_challenge=&code_challenge_method=&user_code=&prompt=">
+Forgot your password?  </a>
+
+              </div>
+              <input id="password" type="password" name="password" autocomplete="current-password" />
+            </div>
+        </fieldset>
+
+  <div class="form-row">
+  <label class="checkbox">
+        <input type="hidden" name="__cb_rememberDevice" value="false"/>
+    <input type="checkbox" name=rememberDevice value="true" checked=checked/><span
+        class="box"></span><span class="label">Keep me signed in<i class="fa fa-info-circle" data-tooltip="Check this to stay signed in for the configured duration. Don&#39;t select this on a public or shared device."></i></span>
+  </label>
+  </div>
+
+          <div class="form-row">
+  <button class="blue button"><i class="fa fa-key"></i> Sign in</button>
+          </div>
+      </form>
+      <div>
+      </div>
+        <div class="form-row push-top" style="text-align: center;">
+          New to Band?
+            <a href="/oauth2/register?tenantId=08298c36-e324-4b2c-83f2-1ec9ae04d8d7&client_id=6f9bd03d-6013-45bb-aa4d-8dc5bdb20a73&nonce=&pendingIdPLinkId=&redirect_uri=https%3A%2F%2Fapp.band.ai%2Fusers%2Flog_in%2Ffusion_auth&response_mode=&response_type=code&scope=email%20profile&state=&timezone=&metaData.device.name=&metaData.device.type=&code_challenge=&code_challenge_method=&user_code=&prompt=">
+Create account  </a>
+
+        </div>
+
+      <div id="login-button-container" class="login-button-container" data-federated-csrf="VIQDskkOoj8-w4Pm">
+        <div class="hr-container">
+          <hr>
+          <div>Or sign in with</div>
+        </div>
+
+
+
+
+
+
+            <div class="form-row push-less-top">
+      <button id="google-login-button" class="google login-button" data-login-method="UseRedirect"
+              data-scope="email profile openid" data-identity-provider-id="7593f5f1-070b-43e0-a7f0-534984b6af72">
+        <div>
+          <div class="icon">
+            <svg version="1.1" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <g>
+                <path class="cls-1"
+                      d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
+                <path class="cls-2"
+                      d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
+                <path class="cls-3"
+                      d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
+                <path class="cls-4"
+                      d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
+                <path class="cls-5" d="M0 0h48v48H0z"></path>
+              </g>
+            </svg>
+          </div>
+          <div class="text">Google</div>
+        </div>
+      </button>
+                </div>
+
+
+
+
+
+
+
+
+
+      </div>
+          </main>
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+  </main>
+  </body>
+</html>
