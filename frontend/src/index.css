@@ -1,0 +1,273 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────
+   CSS Custom Properties — Design Tokens
+   Preserving names to maintain current logic
+───────────────────────────────────────── */
+:root {
+  /* Backgrounds */
+  --color-bg-base: #08090C;
+  --color-bg-elevated: rgba(18, 20, 27, 0.4);
+  --color-bg-surface: rgba(25, 28, 38, 0.45);
+  --color-bg-overlay: rgba(35, 39, 53, 0.65);
+
+  /* Text */
+  --color-text-primary: #F3F4F6;
+  --color-text-secondary: #9CA3AF;
+  --color-text-muted: #6B7280;
+
+  /* Borders */
+  --color-border: rgba(255, 255, 255, 0.07);
+  --color-border-subtle: rgba(255, 255, 255, 0.04);
+  --color-border-strong: rgba(255, 255, 255, 0.15);
+
+  /* Accent */
+  --color-accent: #E5E7EB;
+  --color-accent-muted: #9CA3AF;
+
+  /* Status colors */
+  --color-status-active: #10B981;
+  --color-status-idle: #6B7280;
+  --color-status-warning: #F59E0B;
+  --color-status-error: #EF4444;
+  --color-status-info: #3B82F6;
+
+  /* Risk levels */
+  --color-risk-critical: #EF4444;
+  --color-risk-high: #F97316;
+  --color-risk-medium: #F59E0B;
+  --color-risk-low: #10B981;
+
+  /* Sidebar layouts */
+  --sidebar-width: 250px;
+  --sidebar-collapsed-width: 76px;
+  --topnav-height: 64px;
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ─────────────────────────────────────────
+   Base Styling Overrides
+───────────────────────────────────────── */
+@layer base {
+  * {
+    box-sizing: border-box;
+    border-color: var(--color-border);
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-bg-base);
+    color: var(--color-text-primary);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+
+  /* Custom Scrollbar for OS look */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 99px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  :focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.4);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+}
+
+/* ─────────────────────────────────────────
+   Design System Components
+───────────────────────────────────────── */
+@layer components {
+  /* Premium Glass Layout Panel */
+  .glass {
+    background: rgba(18, 20, 29, 0.45);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  }
+
+  .glass-subtle {
+    background: rgba(15, 17, 26, 0.25);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .glass-strong {
+    background: rgba(12, 14, 20, 0.75);
+    backdrop-filter: blur(32px);
+    -webkit-backdrop-filter: blur(32px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  /* Dynamic Card System matching reference rounded style */
+  .card {
+    @apply border border-white/5 bg-white/[0.02] rounded-[20px];
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    transition: all var(--transition-normal);
+  }
+
+  .card:hover {
+    @apply border-white/10 bg-white/[0.04] -translate-y-0.5;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  }
+
+  /* High contrast solid dark card */
+  .card-dark {
+    background: rgba(7, 8, 11, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 20px;
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.02), 0 8px 32px rgba(0, 0, 0, 0.45);
+  }
+
+  /* Navigation Sidebar Menu Link */
+  .nav-item {
+    @apply flex items-center gap-3.5 px-4 py-3 rounded-xl text-text-secondary text-xs font-semibold tracking-wide uppercase transition-all duration-200;
+  }
+
+  .nav-item:hover {
+    @apply bg-white/[0.04] text-text-primary;
+  }
+
+  /* Active glow/pill */
+  .nav-item.active {
+    background: rgba(255, 255, 255, 0.07);
+    color: #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.05), 
+                0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .divider {
+    @apply border-t border-white/5 my-4;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-2xs font-semibold tracking-wider uppercase;
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #FFFFFF 0%, #9CA3AF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+/* ─────────────────────────────────────────
+   Responsive / Utility Classes
+───────────────────────────────────────── */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .transition-base {
+    transition: all var(--transition-normal);
+  }
+
+  .sidebar-expanded {
+    width: var(--sidebar-width);
+  }
+
+  .sidebar-collapsed {
+    width: var(--sidebar-collapsed-width);
+  }
+
+  /* Ambient Orb Glows in Backdrop */
+  .orb-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    filter: blur(140px);
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .orb-1 {
+    background: radial-gradient(circle, #5b21b6 0%, transparent 70%);
+    top: -15%;
+    left: 5%;
+    animation: float-slow 25s infinite ease-in-out;
+  }
+
+  .orb-2 {
+    background: radial-gradient(circle, #0369a1 0%, transparent 70%);
+    bottom: -10%;
+    right: 5%;
+    animation: float-slow-reverse 30s infinite ease-in-out;
+  }
+
+  .orb-3 {
+    background: radial-gradient(circle, #0d9488 0%, transparent 70%);
+    top: 35%;
+    left: 50%;
+    animation: float-slow-alt 27s infinite ease-in-out;
+  }
+}
+
+/* ─────────────────────────────────────────
+   Animations & Keyframes
+───────────────────────────────────────── */
+@keyframes float-slow {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(60px, 40px) scale(1.15); }
+}
+
+@keyframes float-slow-reverse {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-50px, -70px) scale(0.9); }
+}
+
+@keyframes float-slow-alt {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(40px, -50px) scale(1.08); }
+}
+
+/* React Flow Visual inteligence */
+.react-flow__background {
+  background-color: transparent !important;
+}
+
+.react-flow__edge-path {
+  stroke: rgba(255, 255, 255, 0.15) !important;
+  stroke-width: 2 !important;
+}
+
+/* Status dots animations */
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.85); }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s ease-in-out infinite;
+}
